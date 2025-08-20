@@ -10,6 +10,7 @@ int performAction(string action) {
         cout << " - help: Show this help message" << endl;
         cout << " - exit: Exit the program" << endl;
         cout << " - version: Show the version information" << endl;
+        cout << " - app library: Show the available applications and use them." << endl;
     } else if (action == "exit") {
         cout << "Goodbye!" << endl;
         exit(0);
@@ -20,6 +21,13 @@ int performAction(string action) {
         cout << " - Text Editor" << endl;
         cout << " - File Manager" << endl;
         cout << " - Terminal" << endl;
+        cout << "What app would you like to use?: " << endl;
+        string appChoice;
+        getline(cin, appChoice);
+        cout << "You have chosen: " << appChoice << endl;
+        appChoice();
+    } else {
+        cout << "Unknown command: " << action << endl;
     }
     return 0;
 }
