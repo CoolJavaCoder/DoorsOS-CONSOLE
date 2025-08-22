@@ -5,6 +5,7 @@
 
 using namespace std;
 void fileManager();
+void terminal();
 
 int performAction(string action) {
     if (action == "help") {
@@ -30,7 +31,11 @@ int performAction(string action) {
         if (appChoice == "File Manager") {
             fileManager();
         }
-        else {
+        else if (appChoice == "Terminal") {
+            terminal();
+        } else if (appChoice == "Text Editor") {
+            cout << "Text Editor is not implemented yet." << endl;
+        } else {
             cout << "Unknown application: " << appChoice << endl;
         }
     } else {
@@ -125,4 +130,34 @@ void fileManager() {
         }
     }
     
-}    
+} 
+void echo(string message){
+    cout << message << endl;
+}   
+void terminal() {
+    cout << "DOORS TERMINAL" << endl;
+    while(true) {
+        cout << "Terminal> ";
+        string command;
+        getline(cin, command);
+        if (command == "exit") {
+            cout << "Exiting terminal." << endl;
+            break;
+        } else if (command == "help") {
+            cout << "Available commands: help, exit, echo, explain, lsapps" << endl;
+        } else if (command.rfind("echo ", 0) == 0) {
+            echo(command.substr(5));
+        } else if (command.rfind("explain", 0) == 0) {
+            cout << "The DOORS operating system is a simple, user-friendly OS designed for ease of use." << endl;
+            cout << "After all, why open a Window when you can just use a Door?" << endl;
+            cout << "This terminal does not do much right now, more coming soon!" << endl;
+        } else if (command.rfind("lsapps", 0) == 0) {
+            cout << "Listing applications:" << endl;
+            cout << " - File Manager" << endl;
+            cout << " - Terminal" << endl;
+            cout << " - Text Editor (not implemented)" << endl;
+        } else {
+            cout << "Unknown command: " << command << endl;
+        }
+    }
+}
