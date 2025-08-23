@@ -1,11 +1,15 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 #include <cstdlib>
 
 
 using namespace std;
+void doorpax();
 void fileManager();
-void terminal();
+void Terminal();
+string apps[7] = {"File Manager", "Terminal", "Text Editor"};
+
 
 int performAction(string action) {
     if (action == "help") {
@@ -21,9 +25,13 @@ int performAction(string action) {
         cout << "DoorsOS Version 1.0.0" << endl;
     } else if (action == "app library"){
         cout << "Available applications:" << endl;
-        cout << " - Text Editor" << endl;
-        cout << " - File Manager" << endl;
-        cout << " - Terminal" << endl;
+        cout << " - " << apps[0] << endl;
+        cout << " - " << apps[1] << endl;
+        cout << " - " << apps[2] << endl;
+        cout << " - " << apps[3] << endl;
+        cout << " - " << apps[4] << endl;
+        cout << " - " << apps[5] << endl;
+        cout << " - " << apps[6] << endl;
         cout << "What app would you like to use?: " << endl;
         string appChoice;
         getline(cin, appChoice);
@@ -32,9 +40,23 @@ int performAction(string action) {
             fileManager();
         }
         else if (appChoice == "Terminal") {
-            terminal();
+            Terminal();
         } else if (appChoice == "Text Editor") {
             cout << "Text Editor is not implemented yet." << endl;
+        } else if (appChoice == "Guessing Game"){
+            cout << "Welcome to the Guessing Game!" << endl;
+            int numberToGuess = rand() % 100 + 1; // Random number between 1 and 100
+            int userGuess;
+            do {
+                cout << "Enter your guess (1-100): ";
+                cin >> userGuess;
+                if (userGuess < numberToGuess) {
+                    cout << "Too low! Try again." << endl;
+                } else if (userGuess > numberToGuess) {
+                    cout << "Too high! Try again." << endl;
+                }
+            } while (userGuess != numberToGuess);
+            cout << "Congratulations! You guessed the number." << endl;
         } else {
             cout << "Unknown application: " << appChoice << endl;
         }
@@ -134,7 +156,40 @@ void fileManager() {
 void echo(string message){
     cout << message << endl;
 }   
-void terminal() {
+
+void doorpax(){
+    cout << "DOORS PACKAGE MANAGER" << endl;
+    while(true) {
+        cout << "DoorPax> ";
+        string package;
+        getline(cin, package);
+        if (package == "exit") {
+            cout << "Exiting DoorPax." << endl;
+            break;
+        } else if(package == "guessnumber"){
+            string GuessingGame = "Guessing Game";
+            cout << "Getting packages..." << endl;
+            sleep(3);
+            cout << "Packages retrieved successfully." << endl;
+            for(int i = 0; i < 7; i++) {
+                if (apps[i] == GuessingGame) {
+                    cout << "Guessing Game is already installed." << endl;
+                    return;
+                }
+                else if(apps[i].empty()) {
+                    apps[i] = GuessingGame;
+                    cout << "Guessing Game installed successfully." << endl;
+                    return;
+                }
+            }
+
+        } else {
+            cout << "Unknown package command: " << package << endl;
+        }
+    }
+}
+
+void Terminal(){
     cout << "DOORS TERMINAL" << endl;
     while(true) {
         cout << "Terminal> ";
@@ -153,18 +208,27 @@ void terminal() {
             cout << "This terminal does not do much right now, more coming soon!" << endl;
         } else if (command.rfind("lsapps", 0) == 0) {
             cout << "Listing applications:" << endl;
-            cout << " - File Manager" << endl;
-            cout << " - Terminal" << endl;
-            cout << " - Text Editor (not implemented)" << endl;
+            cout << " - " << apps[0] << endl;
+            cout << " - " << apps[1] << endl;
+            cout << " - " << apps[2] << endl;
+            cout << " - " << apps[3] << endl;
+            cout << " - " << apps[4] << endl;
+            cout << " - " << apps[5] << endl;
+            cout << " - " << apps[6] << endl;
         } else if (command.rfind("start", 0) == 0) {
             cout << "Starting application: " << command.substr(6) << endl;
             if (command.substr(6) == "File Manager") {
                 fileManager();
             } else if (command.substr(6) == "Terminal") {
-                terminal();
+                Terminal();
+            } else if (command.substr(6) == "DoorPax") {    
+                cout << "This is the DoorsOS exclusive package manager";
+                doorpax();
             } else {
                 cout << "Unknown application: " << command.substr(6) << endl;
             }
+        } else if (command.rfind("DoorPax", 0) == 0) {
+            doorpax();
         } else {
             cout << "Unknown command: " << command << endl;
         }
