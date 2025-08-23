@@ -98,25 +98,19 @@ int main() {
 void fileManager() {
     cout << "DOORS FILES" << endl;
     cout << "You can store up to ten files here." << endl;
+    string newFileName;
     string fileAction;
-    string files[10];
-    string file1;
-    string file2;
-    string file3;
-    string file4;
-    files[0] = file1;
-    files[1] = file2;
-    files[2] = file3;
-    files[3] = file4;
-
+    string files[10] = {};
+    
+    
+    
     while (true) {
         cout << "Enter an action to do with your files (new, edit, delete, list, exit)" << endl;
         getline(cin, fileAction);
         if(fileAction == "new"){
                cout << "Enter the name for the new file: ";
-               string newFileName;
                getline(cin, newFileName);
-               for (int i = 0; i < 6; i++) {
+               for (int i = 0; i < 10; i++) {
                    if (files[i].empty()) {
                        files[i] = newFileName;
                        cout << "File created: " << newFileName << endl;
@@ -125,25 +119,23 @@ void fileManager() {
                }
         } else if(fileAction == "list"){
             cout << "Listing files:" << endl;
-            cout << " - " << files[0] << endl;
-            cout << " - " << files[1] << endl;
-            cout << " - " << files[2] << endl;
-            cout << " - " << files[3] << endl;
-            cout << " - " << files[4] << endl;
-            cout << " - " << files[5] << endl;
-            cout << " - " << files[6] << endl;
-            cout << " - " << files[7] << endl;
-            cout << " - " << files[8] << endl;
-            cout << " - " << files[9] << endl;
-        } else if(fileAction == "delete"){
-            cout << "Enter the name of the file you want to delete: ";
-            string deleteFileName;
-            getline(cin, deleteFileName);
-            for (int i = 0; i < 10; i++) {
-                if (files[i] == deleteFileName) {
-                    files[i].clear();
-                    cout << "File deleted: " << deleteFileName << endl;
-                    break;
+            for(int i = 0; i < 10; i++) {
+                if (!files[i].empty()) {
+                    cout << " - " << files[i] << endl;
+                } else {
+                    cout << " - " << endl;
+                }
+            }
+            
+            } else if(fileAction == "delete"){
+                cout << "Enter the name of the file you want to delete: ";
+                string deleteFileName;
+                getline(cin, deleteFileName);
+                for (int i = 0; i < 10; i++) {
+                    if (files[i] == deleteFileName) {
+                        files[i].clear();
+                        cout << "File deleted: " << deleteFileName << endl;
+                        break;
                 }
             }
         } else if(fileAction == "exit"){
@@ -151,8 +143,9 @@ void fileManager() {
             break;
         }
     }
-    
-} 
+
+}
+
 void echo(string message){
     cout << message << endl;
 }   
