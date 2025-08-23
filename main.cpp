@@ -144,7 +144,7 @@ void terminal() {
             cout << "Exiting terminal." << endl;
             break;
         } else if (command == "help") {
-            cout << "Available commands: help, exit, echo, explain, lsapps" << endl;
+            cout << "Available commands: help, exit, echo, explain, lsapps, start" << endl;
         } else if (command.rfind("echo ", 0) == 0) {
             echo(command.substr(5));
         } else if (command.rfind("explain", 0) == 0) {
@@ -156,6 +156,15 @@ void terminal() {
             cout << " - File Manager" << endl;
             cout << " - Terminal" << endl;
             cout << " - Text Editor (not implemented)" << endl;
+        } else if (command.rfind("start", 0) == 0) {
+            cout << "Starting application: " << command.substr(6) << endl;
+            if (command.substr(6) == "File Manager") {
+                fileManager();
+            } else if (command.substr(6) == "Terminal") {
+                terminal();
+            } else {
+                cout << "Unknown application: " << command.substr(6) << endl;
+            }
         } else {
             cout << "Unknown command: " << command << endl;
         }
