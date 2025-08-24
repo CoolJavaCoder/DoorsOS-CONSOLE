@@ -43,7 +43,27 @@ int performAction(string action) {
         else if (appChoice == "Terminal") {
             Terminal();
         } else if (appChoice == "Text Editor") {
-            cout << "Text Editor is not implemented yet." << endl;
+            cout << "DOORS TEXT EDITOR" << endl;
+            string fileToEdit;
+            cout << "Enter the name of the file to edit: ";
+            getline(cin, fileToEdit);
+            ofstream file(fileToEdit, ios::in | ios::out | ios::app);
+            if (file.is_open()) {
+                cout << "Editing file: " << fileToEdit << endl;
+                cout << "Enter text to append to the file (type 'exit' on a new line to finish):" << endl;
+                string line;
+                while (true) {
+                    getline(cin, line);
+                    if (line == "exit") {
+                        break;
+                    }
+                    file << line << endl;
+                }
+                file.close();
+                cout << "File saved." << endl;
+            } else {
+                cout << "Unable to open file." << endl;
+            }
         } else if (appChoice == "Guessing Game"){
             cout << "Welcome to the Guessing Game!" << endl;
             int numberToGuess = rand() % 100 + 1; // Random number between 1 and 100
@@ -218,6 +238,10 @@ void doorpax(){
                     return;
                 }
             }
+        } else if(package == "help") {
+            cout << "Available packages: guessnumber, todo" << endl;
+            cout << "Type the package name to install it." << endl;
+            cout << "Type 'exit' to exit DoorPax." << endl;
         } else {
             cout << "Unknown package command: " << package << endl;
         }
