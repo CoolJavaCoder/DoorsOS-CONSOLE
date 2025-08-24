@@ -134,6 +134,13 @@ void fileManager() {
                    if (files[i].empty()) {
                        files[i] = newFileName;
                        cout << "File created: " << newFileName << endl;
+                       ofstream newFile(newFileName);
+                       if (newFile.is_open()) {
+                           newFile << ""; // Create an empty file
+                           newFile.close();
+                       } else {
+                           cout << "Unable to create file." << endl;
+                       }
                        break;
                    }
                }
