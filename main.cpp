@@ -2,6 +2,7 @@
 #include <string>
 #include <unistd.h>
 #include <cstdlib>
+#include <fstream>
 
 
 using namespace std;
@@ -57,6 +58,27 @@ int performAction(string action) {
                 }
             } while (userGuess != numberToGuess);
             cout << "Congratulations! You guessed the number." << endl;
+        } else if (appChoice == "TaskTamer") {
+            string tasks[10];
+            cout << "Welcome to TaskTamer!" << endl;
+            cout << "Enter a task to set as todo: ";
+            string todoTask;
+            getline(cin, todoTask);
+            cout << "Task added to your todo list: " << todoTask << endl;
+            for (int i = 0; i < 10; i++) {
+                if (tasks[i].empty()) {
+                    tasks[i] = todoTask;
+                    ofstream taskFile("tasks.txt", ios::app);
+                    if (taskFile.is_open()) {
+                        taskFile << todoTask << endl;
+                        taskFile.close();
+                    } else {
+                        cout << "Unable to open file to save tasks." << endl;
+                    }
+                    break;
+                }
+            }
+            
         } else {
             cout << "Unknown application: " << appChoice << endl;
         }
@@ -101,8 +123,6 @@ void fileManager() {
     string newFileName;
     string fileAction;
     string files[10] = {};
-    
-    
     
     while (true) {
         cout << "Enter an action to do with your files (new, edit, delete, list, exit)" << endl;
@@ -175,7 +195,22 @@ void doorpax(){
                     return;
                 }
             }
-
+        } else if(package == "todo"){
+            string TodoApp = "TaskTamer";
+            cout << "Getting packages..." << endl;
+            sleep(3);
+            cout << "Packages retrieved successfully." << endl;
+            for(int i = 0; i < 7; i++) {
+                if (apps[i] == TodoApp) {
+                    cout << "TaskTamer is already installed." << endl;
+                    return;
+                }
+                else if(apps[i].empty()) {
+                    apps[i] = TodoApp;
+                    cout << "TaskTamer installed successfully." << endl;
+                    return;
+                }
+            }
         } else {
             cout << "Unknown package command: " << package << endl;
         }
