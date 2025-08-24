@@ -145,7 +145,7 @@ void fileManager() {
     string files[10] = {};
     
     while (true) {
-        cout << "Enter an action to do with your files (new, edit, delete, list, exit)" << endl;
+        cout << "Enter an action to do with your files (new, list, exit)" << endl;
         getline(cin, fileAction);
         if(fileAction == "new"){
                cout << "Enter the name for the new file: ";
