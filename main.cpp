@@ -98,7 +98,18 @@ int performAction(string action) {
                     break;
                 }
             }
-            
+        } else if(appChoice == "System Commander") {
+            cout << "Welcome to System Commander" << endl;
+            cout << "You can execute your host operating system commands here." << endl;
+            string command;
+            while (true != false) {
+                cout << "Enter a command: ";
+                getline(cin, command);
+                system(command.c_str());
+                if (command == "exit") {
+                    break;
+                }
+            }
         } else {
             cout << "Unknown application: " << appChoice << endl;
         }
@@ -242,6 +253,22 @@ void doorpax(){
             cout << "Available packages: guessnumber, todo" << endl;
             cout << "Type the package name to install it." << endl;
             cout << "Type 'exit' to exit DoorPax." << endl;
+        } else if(package == "syscmd"){
+            string sysCmds = "System Commander";
+            cout << "Getting packages..." << endl;
+            sleep(3);
+            cout << "Packages retrieved successfully." << endl;
+            for(int i = 0; i < 7; i++) {
+                if (apps[i] == sysCmds) {
+                    cout << "System Commander is already installed." << endl;
+                    return;
+                }
+                else if(apps[i].empty()) {
+                    apps[i] = sysCmds;
+                    cout << "System Commander installed successfully." << endl;
+                    return;
+                }
+            }
         } else {
             cout << "Unknown package command: " << package << endl;
         }
