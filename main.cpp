@@ -1,15 +1,20 @@
 #include <iostream>
 #include <string>
-#include <unistd.h>
 #include <cstdlib>
 #include <fstream>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <cstring>
+#include <windows.h>
+#pragma comment(lib, "ws2_32.lib")
+
 
 
 using namespace std;
 void doorpax();
 void fileManager();
 void Terminal();
-string apps[7] = {"File Manager", "Terminal", "Text Editor"};
+string apps[7] = {"File Manager", "Terminal", "Text Editor", "", "", "", ""};
 
 
 int performAction(string action) {
@@ -47,7 +52,7 @@ int performAction(string action) {
             string fileToEdit;
             cout << "Enter the name of the file to edit: ";
             getline(cin, fileToEdit);
-            ofstream file(fileToEdit, ios::in | ios::out | ios::app);
+            ofstream file(fileToEdit, ios::app);
             if (file.is_open()) {
                 cout << "Editing file: " << fileToEdit << endl;
                 cout << "Enter text to append to the file (type 'exit' on a new line to finish):" << endl;
@@ -112,11 +117,11 @@ int performAction(string action) {
             }
         } else {
             cout << "Unknown application: " << appChoice << endl;
+            return 0;
         }
     } else {
         cout << "Unknown command: " << action << endl;
     }
-    return 0;
 }
 
 int main() {
@@ -184,16 +189,15 @@ void fileManager() {
                     cout << " - " << endl;
                 }
             }
-            
-            } else if(fileAction == "delete"){
-                cout << "Enter the name of the file you want to delete: ";
-                string deleteFileName;
-                getline(cin, deleteFileName);
-                for (int i = 0; i < 10; i++) {
-                    if (files[i] == deleteFileName) {
-                        files[i].clear();
-                        cout << "File deleted: " << deleteFileName << endl;
-                        break;
+        } else if(fileAction == "delete"){
+            cout << "Enter the name of the file you want to delete: ";
+            string deleteFileName;
+            getline(cin, deleteFileName);
+            for (int i = 0; i < 10; i++) {
+                if (files[i] == deleteFileName) {
+                    files[i].clear();
+                    cout << "File deleted: " << deleteFileName << endl;
+                    break;
                 }
             }
         } else if(fileAction == "exit"){
@@ -220,7 +224,7 @@ void doorpax(){
         } else if(package == "guessnumber"){
             string GuessingGame = "Guessing Game";
             cout << "Getting packages..." << endl;
-            sleep(3);
+            Sleep(3000);
             cout << "Packages retrieved successfully." << endl;
             for(int i = 0; i < 7; i++) {
                 if (apps[i] == GuessingGame) {
@@ -236,7 +240,7 @@ void doorpax(){
         } else if(package == "todo"){
             string TodoApp = "TaskTamer";
             cout << "Getting packages..." << endl;
-            sleep(3);
+            Sleep(3000);
             cout << "Packages retrieved successfully." << endl;
             for(int i = 0; i < 7; i++) {
                 if (apps[i] == TodoApp) {
@@ -256,7 +260,7 @@ void doorpax(){
         } else if(package == "syscmd"){
             string sysCmds = "System Commander";
             cout << "Getting packages..." << endl;
-            sleep(3);
+            Sleep(3000);
             cout << "Packages retrieved successfully." << endl;
             for(int i = 0; i < 7; i++) {
                 if (apps[i] == sysCmds) {
