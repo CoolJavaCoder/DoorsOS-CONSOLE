@@ -6,6 +6,7 @@
 #include <ws2tcpip.h>
 #include <cstring>
 #include <windows.h>
+#include <limits>
 #pragma comment(lib, "ws2_32.lib")
 
 
@@ -17,7 +18,7 @@ void Terminal();
 string apps[7] = {"File Manager", "Terminal", "Text Editor", "", "", "", ""};
 
 
-int performAction(string action) {
+void performAction(string action) {
     if (action == "help") {
         cout << "Welcome to the Doors Operating System. Here are some commands you can use:" << endl;
         cout << " - help: Show this help message" << endl;
@@ -28,7 +29,7 @@ int performAction(string action) {
         cout << "Goodbye!" << endl;
         exit(0);
     } else if (action == "version") {
-        cout << "DoorsOS Version 1.0.0" << endl;
+        cout << "DoorsOS Version 1.0.1" << endl;
     } else if (action == "app library"){
         cout << "Available applications:" << endl;
         cout << " - " << apps[0] << endl;
@@ -83,6 +84,7 @@ int performAction(string action) {
                 }
             } while (userGuess != numberToGuess);
             cout << "Congratulations! You guessed the number." << endl;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear leftover newline
         } else if (appChoice == "TaskTamer") {
             string tasks[10];
             cout << "Welcome to TaskTamer!" << endl;
@@ -115,13 +117,54 @@ int performAction(string action) {
                     break;
                 }
             }
+        } else if(appChoice == "CalcMaster") {
+            cout << "Welcome to CalcMaster!" << endl;
+            cout << "This is a simple calculator that can perform basic arithmetic operations." << endl;
+            double num1, num2;
+            char operation;
+            cout << "Enter first number: ";
+            cin >> num1;
+            cout << "Enter an operator (+, -, *, /): ";
+            cin >> operation;
+            cout << "Enter second number: ";
+            cin >> num2;
+            double result;
+            switch (operation) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    if (num2 != 0) {
+                        result = num1 / num2;
+                    } else {
+                        cout << "Error: Division by zero!" << endl;
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        return;
+                    }
+                    break;
+                default:
+                    cout << "Invalid operator!" << endl;
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    return;
+            }
+            cout << "Result: " << result << endl;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         } else {
             cout << "Unknown application: " << appChoice << endl;
-            return 0;
+            return;
         }
     } else {
         cout << "Unknown command: " << action << endl;
+        return;
     }
+
+    // fallthrough (void)
 }
 
 int main() {
@@ -273,6 +316,22 @@ void doorpax(){
                     return;
                 }
             }
+        } else if(package == "CalcMaster"){
+            string calcMaster = "CalcMaster";
+            cout << "Getting packages..." << endl;
+            Sleep(3000);
+            cout << "Packages retrieved successfully." << endl;
+            for(int i = 0; i < 7; i++) {
+                if (apps[i] == calcMaster) {
+                    cout << "CalcMaster is already installed." << endl;
+                    return;
+                }
+                else if(apps[i].empty()) {
+                    apps[i] = calcMaster;
+                    cout << "CalcMaster installed successfully." << endl;
+                    return;
+                }
+            }
         } else {
             cout << "Unknown package command: " << package << endl;
         }
@@ -285,13 +344,15 @@ void Terminal(){
         cout << "Terminal> ";
         string command;
         getline(cin, command);
+
         if (command == "exit") {
             cout << "Exiting terminal." << endl;
             break;
         } else if (command == "help") {
             cout << "Available commands: help, exit, echo, explain, lsapps, start" << endl;
         } else if (command.rfind("echo ", 0) == 0) {
-            echo(command.substr(5));
+            if (command.size() > 5) echo(command.substr(5));
+            else echo(string());
         } else if (command.rfind("explain", 0) == 0) {
             cout << "The DOORS operating system is a simple, user-friendly OS designed for ease of use." << endl;
             cout << "After all, why open a Window when you can just use a Door?" << endl;
@@ -305,18 +366,21 @@ void Terminal(){
             cout << " - " << apps[4] << endl;
             cout << " - " << apps[5] << endl;
             cout << " - " << apps[6] << endl;
-        } else if (command.rfind("start", 0) == 0) {
-            cout << "Starting application: " << command.substr(6) << endl;
-            if (command.substr(6) == "File Manager") {
+        } else if (command.rfind("start ", 0) == 0) {
+            string app = command.size() > 6 ? command.substr(6) : string();
+            cout << "Starting application: " << app << endl;
+            if (app == "File Manager") {
                 fileManager();
-            } else if (command.substr(6) == "Terminal") {
+            } else if (app == "Terminal") {
                 Terminal();
-            } else if (command.substr(6) == "DoorPax") {    
-                cout << "This is the DoorsOS exclusive package manager";
+            } else if (app == "DoorPax") {
+                cout << "This is the DoorsOS exclusive package manager" << endl;
                 doorpax();
             } else {
-                cout << "Unknown application: " << command.substr(6) << endl;
+                cout << "Unknown application: " << app << endl;
             }
+        } else if (command == "start") {
+            cout << "Usage: start <AppName>" << endl;
         } else if (command.rfind("DoorPax", 0) == 0) {
             doorpax();
         } else {
